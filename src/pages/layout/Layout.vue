@@ -2,7 +2,7 @@
     <div class="app-wrapper">
 
       <headerbar />
-      <sidebar class="sidebar-container"/>
+      <sidebar :menu-list="menuList" class="sidebar-container"/>
       <app-main />
 
     </div>
@@ -17,6 +17,19 @@
           Headerbar,
           Sidebar,
           AppMain
+        },
+        data(){
+          return {
+
+          }
+        },
+        computed:{
+          menuList() {
+            return this.$store.state.app.menuList;
+          }
+        },
+        mounted(){
+          this.$store.commit('refreshView');
         }
     }
 </script>

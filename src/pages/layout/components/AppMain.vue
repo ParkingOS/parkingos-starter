@@ -17,9 +17,7 @@ export default {
     }
   },
   watch:{
-    key:function (val) {
-      console.log('val---->',val)
-    }
+
   }
 }
 </script>

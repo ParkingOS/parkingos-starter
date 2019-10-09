@@ -6,41 +6,66 @@
 <style lang="scss" scoped>
 
 </style>
+<!--
+  以车场权限为例
+  左边导航栏
+  依赖于element ui  [ NavMenu ]
+-->
+
 <template>
-    <el-scrollbar :native="true" wrap-class="scrollbar-wrapper">
-        <el-menu
-           unique-opened
-           text-color="#fff"
-           active-text-color="#64C0FF"
-           :default-active="$route.path"
-        >
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span slot="title">导航一</span>
-            </template>
-            <el-menu-item-group>
-              <span slot="title">分组一</span>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <span slot="title">选项4</span>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-        </el-menu>
-    </el-scrollbar>
+  <el-scrollbar :native="true" wrap-class="scrollbar-wrapper">
+
+    <el-menu
+      ref="sideMenu"
+      unique-opened
+      :collapse-transition="true"
+      text-color="#fff"
+      active-text-color="#64C0FF"
+      :default-active="defaultActive"
+      class="parkingos-menu"
+    >
+      <menu-item :menuList="menuList"></menu-item>
+    </el-menu>
+  </el-scrollbar>
 
 </template>
 <script>
-
+  import menuItem from './menuItem'
   export default {
-    name:'index',
+    name: 'my-nav',
+    components:{
+      'menu-item':menuItem
+    },
+    props: {
+      menuList: {
+        type: Array,
+        default: function() {
+          return []
+        }
+      }
+    },
     data(){
+      return {
+
+      }
+    },
+    computed:{
+      defaultActive() {
+        let arr = this.$route.path.split('/').reverse();
+        if(arr.length === 3){
+          return arr[1]
+        }else{
+          return arr[0]
+        }
+      }
+    },
+    mounted(){
+    },
+
+    activated(){
+
+    },
+    watch: {
 
     }
   }

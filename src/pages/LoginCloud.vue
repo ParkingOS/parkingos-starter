@@ -145,6 +145,7 @@
       showCityItems_const
     } = parkingosCommon.CONST;
 
+    import utils  from '../libs/util'
     var key = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var iv = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var timer,timer2;
@@ -643,12 +644,16 @@
                 this.setCookie("","",-1);//修改2值都为空，天数为负1天就好了
             },
             storeSetItemFormat(u){
+                //清除 localStorage
+                localStorage.clear();
+                sessionStorage.clear();
+
+                localStorage.setItem('comid', u.comid);
+                localStorage.setItem('groupid', u.groupid)
                 sessionStorage.setItem('user', JSON.stringify(u));
                 sessionStorage.setItem('token', u.token);
                 sessionStorage.setItem('comid', u.comid);
-                localStorage.setItem('comid', u.comid)
                 sessionStorage.setItem('groupid', u.groupid);
-                localStorage.setItem('groupid', u.groupid)
                 sessionStorage.setItem('channelid', u.channelid);
                 sessionStorage.setItem('unionid', u.union_id);
                 sessionStorage.setItem('cityid', u.cityid);
@@ -663,14 +668,7 @@
                 sessionStorage.setItem('serverid',u.serverid);
                 sessionStorage.setItem('bolink_serverid',u.bolink_serverid);
                 sessionStorage.setItem('docking_type',u.docking_type);
-                //切换logo
-                if(u.logo1 != undefined && u.logo1 != null && u.logo1 != ''){
-                    sessionStorage.setItem('logo1', u.logo1);
-                    sessionStorage.setItem('logo2', u.logo2);
-                }else{
-                    sessionStorage.removeItem('logo1');
-                    sessionStorage.removeItem('logo2');
-                }
+
             },
             onSubmit() {
                 this.handleSubmit2();
@@ -678,16 +676,21 @@
             handleSubmit2: function () {
                 this.userError = false;
                 this.passError = false;
-                var _this = this;
-                var pwd = CryptoJS.AES.encrypt(this.loginForm.password, key, {
+                let _this = this;
+                let { username, password } = this.loginForm;
+                let pwd = CryptoJS.AES.encrypt(password, key, {
                     iv: iv,
                     mode: CryptoJS.mode.CBC
                 }).toString();
-                if(this.loginForm.username != '' && this.loginForm.password != ''){
+
+                if(username != '' && password != ''){
                     sessionStorage.clear();
                     this.logining = true;
-                    var _this = this;
-                    var loginParams = {'username': this.loginForm.username, 'password': pwd};
+                    let loginParams = {
+                      'username': username,
+                      'password': pwd
+                    };
+
                     _this.$axios.post(path + '/user/dologin', _this.$qs.stringify(loginParams), {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -709,219 +712,20 @@
 
                             //本地数据存储 20190612
                             _this.storeSetItemFormat(u);
-
-
-
-                          _this.$router.push({path: '/dataCenter_Park'});
-                            return;
-
-
-
-
-                            // 26集团,,,27渠道,,28联盟,,,29城市,30 车场
-                            if (u.oid == ROLE_ID.GROUP) {
-                                // _this.$router.push({path: '/bolinkunion'});
+                            let itemFilter = utils.initRouter(_this);
+                            let defaultShowPage = '';
+                            if(itemFilter && itemFilter.length>0){
+                              if(itemFilter[0].children && itemFilter[0].children.length>0){
+                                let item = itemFilter[0].children
+                                defaultShowPage = item[0].path;
+                              }else{
+                                defaultShowPage = itemFilter[0].path;
+                              }
                             }
+                          _this.$nextTick(()=>{
+                            _this.$router.push({path: defaultShowPage});
+                          });
 
-                            else if (u.oid == ROLE_ID.UNION) {
-                                for (let item in _this.showUnionItem) {
-                                    //第一层循环，取出标签的 v-if
-                                    for (let p in AUTH_ID_UNION) {
-                                        //第二层循环，取出AUTH_ID的item
-                                        if (p == item) {
-                                            //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
-                                            _this.showUnionItem[item] = common.pageShow(u, AUTH_ID_UNION[p]);
-                                            if(_this.showUnionItem[item]) {
-                                                if (_this.highlightindex == '') {
-                                                    //没有导航到任意界面，则继续检测
-                                                    if (item.indexOf('_') > -1) {
-                                                        //带下划线的才是页面
-                                                        if (_this.showUnionItem[item]) {
-                                                            _this.highlightindex = '/' + item;
-                                                            _this.expandindex = '/' + item.split('_')[0];
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                sessionStorage.setItem('showUnionItem', JSON.stringify(_this.showUnionItem));
-                                if (_this.highlightindex == '') {
-                                    _this.$router.push({path: '/index_Union'});
-                                } else {
-                                    // _this.highlightindex = '/data_Center';//先写死跳转到数据中心。后面权限加上了这句就注释掉
-                                    _this.$router.push({path: _this.highlightindex});
-                                    sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                }
-                            }
-
-                            else if (u.oid == ROLE_ID.CITY) {
-                                for (let item in _this.showCityItem) {
-                                    for (let p in AUTH_ID_CITY) {
-                                        if (p == item) {
-                                            _this.showCityItem[item] = common.pageShow(u, AUTH_ID_CITY[p]);
-                                            if(_this.showCityItem[item]) {
-                                                if (_this.highlightindex == '') {
-                                                    if (item.indexOf('_') > -1) {
-                                                        if (_this.showCityItem[item]) {
-                                                            _this.highlightindex = '/' + item;
-                                                            _this.expandindex = '/' + item.split('_')[0];
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                sessionStorage.setItem('showCityItem', JSON.stringify(_this.showCityItem));
-                                if (_this.highlightindex == '') {
-                                    _this.$router.push({path: '/cityAccount'});
-                                } else {
-                                    _this.$router.push({path: _this.highlightindex});
-                                    sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                }
-                            }
-
-
-                            else if (u.oid == ROLE_ID.SHOP) {
-                                for (let item in _this.showShopItem) {
-                                    //第一层循环，取出标签的 v-if
-                                    for (let p in AUTH_ID_SHOP) {
-                                        //第二层循环，取出AUTH_ID的item
-                                        //alert(p)
-                                        if (p == item) {
-                                            //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
-                                            _this.showShopItem[item] = common.pageShow(u, AUTH_ID_SHOP[p]);
-                                            if(_this.showShopItem[item]) {
-                                                if (_this.highlightindex == '') {
-                                                    //没有导航到任意界面，则继续检测
-                                                    //带下划线的才是页面
-                                                    if (_this.showShopItem[item]) {
-                                                        if (item == "member") {
-
-                                                        } else {
-                                                            _this.highlightindex = '/' + item;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                if(u.use_fix_code==0){
-                                    _this.showShopItem['fixCode']=false;
-                                }
-                                sessionStorage.setItem('showShopItem', JSON.stringify(_this.showShopItem));
-                                _this.$router.push({path: _this.highlightindex});
-                                sessionStorage.setItem('highlightindex', _this.highlightindex);
-                            }
-                            else if (u.oid == ROLE_ID.BOSS) {
-                                for(let item in showShopItem_const){
-                                    showShopItem_const[item] = false;
-                                }
-                                sessionStorage.removeItem('showShopItem');
-                                _this.highlightindex = '/city_manage';
-                                _this.$router.push({path: _this.highlightindex});
-                                sessionStorage.setItem('highlightindex', _this.highlightindex);
-                            }
-                            else if (u.oid == ROLE_ID.PARK) {
-                                //先跳转空页面，然后再根据数据情况显示页面再跳转
-                                for (let item in _this.showParkItem) {
-                                    //第一层循环，取出标签的 v-if
-                                    for (let p in AUTH_ID) {
-                                        //第二层循环，取出AUTH_ID的item
-                                        if (p == item) {
-                                            //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
-                                            _this.showParkItem[item] = common.pageShow(u, AUTH_ID[p]);
-                                            if(_this.showParkItem[item]) {
-                                                if (_this.highlightindex == '') {
-                                                    //没有导航到任意界面，则继续检测
-                                                    if (item.indexOf('_') > -1) {
-                                                        //带下划线的才是页面
-                                                        if (_this.showParkItem[item]) {
-                                                            _this.highlightindex = '/' + item;
-                                                            _this.expandindex = '/' + item.split('_')[0];
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                sessionStorage.setItem('showParkItem', JSON.stringify(_this.showParkItem));
-                                if (_this.highlightindex == '') {
-                                    _this.$router.push({path: '/index'});
-                                } else {
-                                    _this.$router.push({path: _this.highlightindex});
-                                    sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                }
-                            }
-                            /*
-                             *@date:20190528
-                             * @description:添加新角色服务商
-                             * pramas:oid == 11
-                             **/
-                            else if(u.oid == ROLE_ID.SERVER){
-                                //先跳转空页面，然后再根据数据情况显示页面再跳转
-                                for (let item in _this.showServerItem) {
-                                    //第一层循环，取出标签的 v-if
-                                    for (let p in AUTH_ID_SERVER) {
-                                        //第二层循环，取出AUTH_ID的item
-                                        if (p == item) {
-                                            //如果两个item名字相同，则检验登录返回的authlist是否有此项权限
-                                            _this.showServerItem[item] = common.pageShow(u, AUTH_ID_SERVER[p]);
-                                            if(_this.showServerItem[item]) {
-                                                if (_this.highlightindex == '') {
-                                                    //没有导航到任意界面，则继续检测
-                                                    if (item.indexOf('_') > -1) {
-                                                        //带下划线的才是页面
-                                                        if (_this.showServerItem[item]) {
-                                                            _this.highlightindex = '/' + item;
-                                                            _this.expandindex = '/' + item.split('_')[0];
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                sessionStorage.setItem('showServerItem', JSON.stringify(_this.showServerItem));
-                                if (_this.highlightindex == '') {
-                                    _this.$router.push({path: '/my_account'});
-                                } else {
-                                    _this.$router.push({path: _this.highlightindex});
-                                    sessionStorage.setItem('highlightindex', _this.highlightindex);
-                                }
-                            }
-                            // 还有一种没有roleid,它是根据另一种判断登录的
-                            //role: 0总管理员，1停车场后台管理员 ，2车场收费员，3财务，4车主  5市场专员 6录入员
-                            else if (u.role == 0) {
-
-                            } else if (u.role == 1) {
-
-                            } else if (u.role == 2) {
-
-                            } else if (u.role == 3) {
-
-                            } else if (u.role == 4) {
-
-                            } else if (u.role == 5) {
-
-                            } else if (u.role == 6) {
-
-                            }else{
-                                _this.$message({
-                                    message: '无登录权限',
-                                    type: 'warning',
-                                    duration:6000,
-                                    showClose:true
-                                });
-                                _this.logining = false;
-                            }
                         } else {
                             _this.logining = false;
                             _this.$message.error(ret.msg);
