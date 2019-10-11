@@ -2,21 +2,25 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import ElementUI from 'element-ui';
-
+import '@/styles/common-variables.scss'
 import App from './App'
 import {router} from './router/index';
 import axios from 'axios'
 import qs from 'qs';
+import QRCode from 'qrcode';
 import store from './store';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'parkingos-ui/lib/parkingos-ui.css'
 import '@/styles/index.scss'
 import scroll from 'vue-seamless-scroll';
 import math from 'mathjs'
-Vue.use(scroll)
+Vue.use(scroll);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
-
+Vue.prototype.$qs = qs;
+Vue.prototype.$axios=axios;
+Vue.prototype.$math = math;
+Vue.prototype.QRCode=QRCode;
 
 /**
  * 分环境引用不同的请求接口
@@ -59,10 +63,9 @@ if (process.env.NODE_ENV == 'production') { //生产环境走的地址
 
 Vue.prototype.$ApiUrl= ApiUrl;
 Vue.prototype.$Authority = Authority;
-Vue.prototype.$qs = qs;
-Vue.prototype.$axios=axios;
-Vue.prototype.$math = math;
 
+//封面图片以及logo图片
+Vue.prototype.$atlas = require('./libs/config').parkingOs;
 
 /* eslint-disable no-new */
 new Vue({

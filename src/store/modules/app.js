@@ -3,11 +3,16 @@ const common = parkingosCommon.COMMON;
 
 const app = {
   state:{
+    screenPower:false,
     menuList:[],
     openedsArr:[],
     tableMaxHeight:'auto',
+    nickname:''
   },
   mutations:{
+    setScreenPower:function (state,no) {
+      state.screenPower = no;
+    },
 // 接受前台数组，刷新菜单
     updateMenuList(state, routes) {
       state.menuList = routes;
@@ -18,6 +23,16 @@ const app = {
         routes = JSON.parse(routes);
         state.menuList = routes;
       }
+
+      //车场用户名赋值
+      let user = sessionStorage.getItem('user');
+      user = JSON.parse(user);
+      let maxLength1 = user.nickname.length;//管理员名称
+      let maxLength2 = user.name.length;
+      let sysUserName = maxLength1>10?user.nickname.slice(0,10)+'...':user.nickname;
+      let nickname = maxLength2>20?user.name.slice(0,20)+'...':user.name;
+      state.nickname = nickname+':'+sysUserName;
+
     },
     defaultOpeneds(state,item){
       let currentItem = [];

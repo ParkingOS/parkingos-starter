@@ -1,9 +1,9 @@
 <template>
     <div class="login-wrapper" :style="cloudLoginBgStyle">
         <div class="login-header-wrapper" v-if="authFlag">
-            <div class="logo" :style="{'background':'url('+logoImg+') no-repeat','background-size': '100% 100%',
+            <div class="logo" :style="{'background':'url('+$atlas.logoImg+') no-repeat','background-size': '100% 100%',
         'background-position': 'center center'}"></div>
-            <div class="logo-title" :style="{'background':'url('+logoTipImg+') no-repeat','background-size': '100% 100%',
+            <div class="logo-title" :style="{'background':'url('+$atlas.logoTipImg+') no-repeat','background-size': '100% 100%',
         'background-position': 'center center'}"></div>
         </div>
 
@@ -267,7 +267,7 @@
         },
         mounted() {
           this.cloudLoginBgStyle = {
-            'background': 'url('+require('@/assets/images/bgImg.jpg')+'),#112068 no-repeat',
+            'background': 'url('+this.$atlas.loginBgUrl+'),#112068 no-repeat',
             'background-size': '100% 100%',
             'background-position': 'center center'
           };

@@ -1,5 +1,5 @@
 import LoginCloud from '@/pages/LoginCloud';
-import { MonitorApp,DataScreen} from 'parkingos-ui'
+import { MonitorApp,DataScreen,FullCodeReduce,FullFreeCarReduce,FixCodeOpenWindow} from 'parkingos-ui'
 import { adminRouter,adminOtherRouter} from "./subAuth/adminRouter";
 import { parkOtherRouter,parkRouter } from "./subAuth/parkRouter";
 import { cityRouter,cityOtherRouter } from "./subAuth/cityRouter";
@@ -30,6 +30,24 @@ export const fullRouter = [
     title:'数据大屏',
     name:'数据大屏',
     component:DataScreen
+  },
+  {
+    path:'/free_car_reduce',
+    title:'全免扫码',
+    name:'FreeCarReduce',
+    component:FullFreeCarReduce
+  },
+  {
+    path:'/free_code_reduce',
+    title:'减免扫码',
+    name:'FreeCodeReduce',
+    component:FullCodeReduce
+  },
+  {
+    path:'/fixcode_open',
+    title:'固定码扫码',
+    name:'fixCode_OpenWindow',
+    component:FixCodeOpenWindow
   },
 ];
 

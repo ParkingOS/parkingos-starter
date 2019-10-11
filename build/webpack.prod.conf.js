@@ -35,11 +35,21 @@ const webpackConfig = merge(baseWebpackConfig, {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          chunks: 'all'
+          chunks: 'initial'
         },
         manifest: {
           name: 'manifest',
           minChunks: Infinity
+        },
+        elementUI: {
+          name: 'chunk-elementUI', // 单独将 elementUI 拆包
+          priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+          test: /[\\/]node_modules[\\/]element-ui[\\/]/
+        },
+        parkingosUI: {
+          name: 'chunk-parkingosUI', // 单独将 elementUI 拆包
+          priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+          test: /[\\/]node_modules[\\/]parkingos-ui[\\/]/
         },
       }
     },

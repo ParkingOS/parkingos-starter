@@ -14,6 +14,10 @@ exports.assetsPath = function (_path) {
   return path.posix.join(assetsSubDirectory, _path)
 }
 
+function resolveResource(name) {
+  return path.resolve(__dirname, '../src/styles/common-variables.scss');
+}
+
 exports.cssLoaders = function (options) {
   options = options || {}
 
@@ -32,10 +36,50 @@ exports.cssLoaders = function (options) {
   }
 
   // generate loader string to be used with extract text plugin
-  function generateLoaders (loader, loaderOptions) {
-    const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
+  // function generateLoaders (loader, loaderOptions) {
+  //   const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
+  //
+  //   if (loader) {
+  //     loaders.push({
+  //       loader: loader + '-loader',
+  //       options: Object.assign({}, loaderOptions, {
+  //         sourceMap: options.sourceMap
+  //       })
+  //     })
+  //   }
+  //
+  //   // Extract CSS when that option is specified
+  //   // (which is the case during production build)
+  //   if (options.extract) {
+  //     return [MiniCssExtractPlugin.loader].concat(loaders)
+  //   } else {
+  //     return ['vue-style-loader'].concat(loaders)
+  //   }
+  // }
+  function generateLoaders(loader, loaderOptions) {
+    const loaders = []
+
+    // Extract CSS when that option is specified
+    // (which is the case during production build)
+    if (options.extract) {
+      loaders.push(MiniCssExtractPlugin.loader)
+    } else {
+      loaders.push('vue-style-loader')
+    }
+
+    loaders.push(cssLoader)
+
+    if (options.usePostCSS) {
+      loaders.push(postcssLoader)
+    }
 
     if (loader) {
+      if (loader === 'sass-resources') {
+        loaders.push({
+          loader: 'sass-loader'
+        })
+      }
+
       loaders.push({
         loader: loader + '-loader',
         options: Object.assign({}, loaderOptions, {
@@ -44,22 +88,18 @@ exports.cssLoaders = function (options) {
       })
     }
 
-    // Extract CSS when that option is specified
-    // (which is the case during production build)
-    if (options.extract) {
-      return [MiniCssExtractPlugin.loader].concat(loaders)
-    } else {
-      return ['vue-style-loader'].concat(loaders)
-    }
+    return loaders
   }
-
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
   return {
     css: generateLoaders(),
     postcss: generateLoaders(),
     less: generateLoaders('less'),
     sass: generateLoaders('sass', { indentedSyntax: true }),
-    scss: generateLoaders('sass'),
+    // scss: generateLoaders('sass'),
+    scss: generateLoaders('sass-resources', {
+      resources: [resolveResource()]
+    }),
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus')
   }

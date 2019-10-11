@@ -10,6 +10,7 @@ util.title = function (title) {
   title = title || '智慧停车云';
   window.document.title = title;
 };
+//获取登录的角色
 util.judgeLoginRoleAuth = function(vm,user){
   let currentAuthObj = {};
   let currentAuth = vm.$Authority;
@@ -81,6 +82,7 @@ util.pageShow = function(authlist,pageNo){
   }
   return false;
 };
+//获取当前的权限列表
 util.getCurrentAuth = function(vm){
   let user = sessionStorage.getItem('user');
   if(user){
@@ -110,36 +112,33 @@ util.getCurrentAuth = function(vm){
 
   return  currentAuthObj;
 };
+//更新路由json数据
 util.assembleObj = function (currentShowItem,routerItem){
+  //先判断单项有没有[mate]
   if(routerItem.meta){
+    //便历权限列表
     for(let item in currentShowItem.showItemConst){
+      //路由权限和权限列表进行对比
       if(routerItem.meta.authority && routerItem.meta.authority === item ){
         if(currentShowItem.showItemConst[item]){
-          if(routerItem.meta){
-            routerItem.meta.hidden = false;
-          }
+          routerItem.meta.hidden = false;
           if(routerItem.children && routerItem.children.length>0){
             for(let childrenItem of routerItem.children){
               util.assembleObj(currentShowItem,childrenItem)
             }
-
           }
         }else{
-          if(routerItem.meta){
-            routerItem.meta.hidden = true;
-          }
-
+          routerItem.meta.hidden = true;
         }
-      }else{
-        //不需要权限的
-        routerItem.meta.hidden = false;
       }
     }
   }
+  return routerItem;
 };
 util.routerFilter = function(currentRouter){
   let currentArr = JSON.parse(JSON.stringify(currentRouter));
   let itemFilter = currentArr.filter(item=>{return  item.meta.hidden == false})
+
   if(itemFilter &&itemFilter.length>0){
     for(let item of itemFilter){
       if(item.children && item.children.length > 0){
@@ -151,12 +150,14 @@ util.routerFilter = function(currentRouter){
   }
   return itemFilter;
 };
+//初始化页面路由
 util.initRouter = function (vm) {
+  //获取当前的路由权限
   let currentShowItem = util.getCurrentAuth(vm);
-
   for(let routerItem of currentShowItem.currentRouter){
     util.assembleObj(currentShowItem,routerItem)
   }
+
   sessionStorage.setItem('showParkItem',JSON.stringify(currentShowItem.showItemConst));
   let itemFilter = util.routerFilter(currentShowItem.currentRouter);
   if(itemFilter&&itemFilter.length>0){

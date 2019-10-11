@@ -1,11 +1,18 @@
 <template>
     <div class="header-wrapper">
-      <div class="header-logo"> logo </div>
+      <div class="header-logo">
+        <div class="logo-left">
+          <img :src="$atlas.headerLogoLeft">
+        </div>
+        <div class="logo-right">
+          <img :src="$atlas.headerLogoRight">
+        </div>
+      </div>
       <div class="header-right-console">
           <div class="console-img">
             <img src="@/assets/images/login-user.png">
           </div>
-          <div class="console-username">小胖纸~</div>
+          <div class="console-username">{{nickname}}</div>
           <div class="console-logout" @click="outloginVisible = true">退出</div>
       </div>
       <!--退出提示-->
@@ -32,6 +39,16 @@
 <script>
     export default {
         name: "Headerbar",
+        props:{
+          nickname:{
+            type:String,
+            default:''
+          },
+          sysUserName:{
+            type:String,
+            default:''
+          }
+        },
         data(){
           return {
             outloginVisible:false,

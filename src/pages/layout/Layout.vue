@@ -1,7 +1,7 @@
 <template>
     <div class="app-wrapper">
 
-      <headerbar />
+      <headerbar :nickname="nickname"  />
       <sidebar :menu-list="menuList" class="sidebar-container"/>
       <app-main />
 
@@ -26,6 +26,9 @@
         computed:{
           menuList() {
             return this.$store.state.app.menuList;
+          },
+          nickname() {
+            return this.$store.state.app.nickname;
           }
         },
         mounted(){

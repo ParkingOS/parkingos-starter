@@ -19,7 +19,27 @@
       line-height: 35px;
       text-align: center;
       color: #fff;
-      background: #2A75D6;
+      //background: #2A75D6;
+      .logo-left{
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+        width: 23px;
+        height: 24px;
+        img{
+          width: 23px;
+          height: 24px;
+        }
+      }
+      .logo-right{
+        width: 90px;
+        height: 34px;
+        margin-left: 30px;
+        img{
+          width: 90px;
+          height: 34px;
+        }
+      }
     }
     .header-right-console{
       position: relative;
