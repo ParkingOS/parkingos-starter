@@ -12,14 +12,19 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const env = require('../config/prod.env')
 
-const webpackConfig = merge(baseWebpackConfig, {
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+
+const smp = new SpeedMeasurePlugin();
+
+const env = require('../config/' + process.env.env_config + '.env');
+
+const webpackConfig = smp.wrap(merge(baseWebpackConfig, {
   mode: 'production',
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
-      extract: true,
+      extract: false,
       usePostCSS: true
     })
   },
@@ -46,16 +51,20 @@ const webpackConfig = merge(baseWebpackConfig, {
           priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
           test: /[\\/]node_modules[\\/]element-ui[\\/]/
         },
-        parkingosUI: {
-          name: 'chunk-parkingosUI', // 单独将 elementUI 拆包
-          priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
-          test: /[\\/]node_modules[\\/]parkingos-ui[\\/]/
-        },
+        // parkingosUI: {
+        //   name: 'chunk-parkingosUI', // 单独将 elementUI 拆包
+        //   priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+        //   test: /[\\/]node_modules[\\/]parkingos-ui[\\/]/
+        // },
       }
     },
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require('./vendor-manifest.json')
+    }),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env': env
@@ -116,7 +125,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       }
     ])
   ]
-})
+}))
 
 if (config.build.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')

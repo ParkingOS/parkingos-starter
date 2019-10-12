@@ -129,7 +129,7 @@
     import CryptoJS from 'crypto-js';
     import parkingosCommon from 'parkingos-common'; //公共common
 
-    const { path, checkPass } = parkingosCommon.API;
+    const { checkPass } = parkingosCommon.API;
     const common = parkingosCommon.COMMON;
     const {
       ROLE_ID,
@@ -301,7 +301,7 @@
                 cform.userid = vm.user_id;
                 cform.ticket = res.ticket;
                 cform.randstr = res.randstr;
-                vm.$axios.post(path + '/user/sendcode', vm.$qs.stringify(cform), {
+                vm.$axios.post('/user/sendcode', vm.$qs.stringify(cform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
@@ -342,7 +342,7 @@
                 }else{
                     vm.loading = true;
                     var cform = {'passwd': this.resetPassForm.pass1,'user_id': vm.user_id, 'token': vm.token};
-                    vm.$axios.post(path + '/user/resetpwd', vm.$qs.stringify(cform), {
+                    vm.$axios.post('/user/resetpwd', vm.$qs.stringify(cform), {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                         }
@@ -489,7 +489,7 @@
                 let vMobile = /^1[3456789]\d{9}$/;
 
                 if(cform.userid != "" && vMobile.test(cform.mobile)){
-                    vm.$axios.post(path + '/user/getckey', vm.$qs.stringify(cform), {
+                    vm.$axios.post('/user/getckey', vm.$qs.stringify(cform), {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                         }
@@ -537,7 +537,7 @@
                 var win = window;
                 var cform = {'mobile': this.getpass.mobile, 'ckey': this.getckeyForm.ckey};
 
-                vm.$axios.post(path + '/user/reguser', vm.$qs.stringify(cform), {
+                vm.$axios.post('/user/reguser', vm.$qs.stringify(cform), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
@@ -578,7 +578,7 @@
                 if(uform.userid !='' && vMobile.test(uform.mobile) && vcode){
                     that.loading = true;
                     var cform = {'mobile': this.getpass.mobile, 'userid': this.getpass.userid, 'code': this.getpass.code};
-                    that.$axios.post(path + '/user/checkcode', that.$qs.stringify(cform), {
+                    that.$axios.post('/user/checkcode', that.$qs.stringify(cform), {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                         }
@@ -691,7 +691,7 @@
                       'password': pwd
                     };
 
-                    _this.$axios.post(path + '/user/dologin', _this.$qs.stringify(loginParams), {
+                    _this.$axios.post('/user/dologin', _this.$qs.stringify(loginParams), {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                         }
