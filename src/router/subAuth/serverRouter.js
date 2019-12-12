@@ -7,7 +7,8 @@ import {
   SubServiceManage,SubServiceManageStaff,
   ServiceMoneyRecord,
   ServiceNewUnionProfit,
-  ServiceRoleManage,ServiceEmployeeManage
+  ServiceRoleManage,ServiceEmployeeManage,
+  ServiceValueAddedSMS,ServiceValueAddedDataScreen,ServiceValueAddedSubscription,ServiceValueAddedApplet,ServiceValueAddedParkSubscription
 } from 'parkingos-ui';
 
 
@@ -202,4 +203,66 @@ export const serverRouter = [
         component:ServiceEmployeeManage
       }
     ]
-  }]
+  },  {
+    path:'/',
+    name:'valueAdded',
+    icon:'el-icon-star-off',
+    title:'增值服务',
+    meta:{
+      authority:'serverValueAddedService',
+      hidden:false,
+    },
+    component:Layout,
+    children:[
+      {
+        path:'/serverValueAddedService_Sms',
+        title:'短信服务',
+        name:'serverValueAddedService_Sms',
+        meta:{
+          authority:'serverValueAddedService_Sms',
+          hidden:false,
+        },
+        component:ServiceValueAddedSMS
+      },
+      {
+        path:'/serverValueAddedService_Screen',
+        title:'数据大屏',
+        name:'serverValueAddedService_Screen',
+        meta:{
+          authority:'serverValueAddedService_Screen',
+          hidden:false,
+        },
+        component:ServiceValueAddedDataScreen
+      },
+      {
+        path:'/serverValueAddedService_ShopApp',
+        title:'商户公众号',
+        name:'serverValueAddedService_ShopApp',
+        meta:{
+          authority:'serverValueAddedService_ShopApp',
+          hidden:false,
+        },
+        component:ServiceValueAddedSubscription
+      },
+      {
+        path:'/serverValueAddedService_Program',
+        title:'小程序收费',
+        name:'serverValueAddedService_Program',
+        meta:{
+          authority:'serverValueAddedService_Program',
+          hidden:false,
+        },
+        component:ServiceValueAddedApplet
+      },
+      {
+        path:'/serverValueAddedService_ParkApp',
+        title:'车场公众号',
+        name:'serverValueAddedService_ParkApp',
+        meta:{
+          authority:'serverValueAddedService_ParkApp',
+          hidden:false,
+        },
+        component:ServiceValueAddedParkSubscription
+      },
+    ]
+  },]

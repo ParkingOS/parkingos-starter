@@ -48,7 +48,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        use: 'babel-loader?cacheDirectory',
         include: [
           resolve('src'),
           resolve('test'),
@@ -56,7 +56,9 @@ module.exports = {
           resolve('node_modules/element-ui/src'),
           resolve('node_modules/element-ui/packages'),
           resolve('node_modules/_element-ui@2.11.1@element-ui/src'),
-          resolve('node_modules/_element-ui@2.11.1@element-ui/packages')
+          resolve('node_modules/_element-ui@2.11.1@element-ui/packages'),
+          resolve('node_modules/parkingos-ui/entryFile'),
+          resolve('node_modules/parkingos-ui/src'),
         ]
       },
       {

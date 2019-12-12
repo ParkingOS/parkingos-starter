@@ -5,7 +5,8 @@ import {
   MyAccount,SerManage,SerManageStaff,UnionManage,UnionManageStaff,
   ParkManage,ParkManageStaff,MaterialTemplatePage,MaterielTable,
   MoneyRecord,NewUnionProfit,RoleManage,EmployeeManage,MessageNtification,
-  SettingManage,AuthManage,SystemMangeLog,Development
+  SettingManage,AuthManage,SystemMangeLog,Development,MoneyPay,
+  CityValueAddedSMS,CitySystemManage_Screen,CityValueAddedSubscription,CityValueAddedApplet,CityValueAddedParkSubscription
 } from 'parkingos-ui';
 
 
@@ -147,7 +148,7 @@ export const cityRouter = [
     name:'cityTrade',
     icon:'el-icon-document',
     title:'交易中心',
-    onlyOne:true,
+    onlyOne:false,
     meta:{
       authority:'cityTrade',
       hidden:false,
@@ -159,9 +160,19 @@ export const cityRouter = [
         title:'资金流水',
         name:'cityTrade_MoneyRecord',
         meta:{
+          authority:'cityTrade_MoneyRecord',
           hidden:false,
         },
         component:MoneyRecord
+      },{
+        path:'/cityTrade_MoneyPay',
+        title:'财务支出',
+        name:'cityTrade_MoneyPay',
+        meta:{
+          authority:'cityTrade_MoneyPay',
+          hidden:false,
+        },
+        component:MoneyPay
       },
     ]
   },{
@@ -186,7 +197,71 @@ export const cityRouter = [
         component:NewUnionProfit
       },
     ]
-  },{
+  },
+  {
+    path:'/',
+    name:'valueAdded',
+    icon:'el-icon-star-off',
+    title:'增值服务',
+    meta:{
+      authority:'cityAddService',
+      hidden:false,
+    },
+    component:Layout,
+    children:[
+      {
+        path:'/cityAddService_sms',
+        title:'短信服务',
+        name:'cityAddService_sms',
+        meta:{
+          authority:'cityAddService_sms',
+          hidden:false,
+        },
+        component:CityValueAddedSMS
+      },
+      {
+        path:'/cityAddService_screen',
+        title:'数据大屏',
+        name:'cityAddService_screen',
+        meta:{
+          authority:'cityAddService_screen',
+          hidden:false,
+        },
+        component:CitySystemManage_Screen
+      },
+      {
+        path:'/cityAddService_shopApp',
+        title:'商户公众号',
+        name:'cityAddService_shopApp',
+        meta:{
+          authority:'cityAddService_shopApp',
+          hidden:false,
+        },
+        component:CityValueAddedSubscription
+      },
+      {
+        path:'/cityAddService_program',
+        title:'小程序收费',
+        name:'cityAddService_program',
+        meta:{
+          authority:'cityAddService_program',
+          hidden:false,
+        },
+        component:CityValueAddedApplet
+      },
+      {
+        path:'/cityAddService_parkApp',
+        title:'车场公众号',
+        name:'cityAddService_parkApp',
+        meta:{
+          authority:'cityAddService_parkApp',
+          hidden:false,
+        },
+        component:CityValueAddedParkSubscription
+      },
+    ]
+  },
+  {
     path:'/',
     name:'cityResources',
     icon:'iconfont icon-yuangongguanli',

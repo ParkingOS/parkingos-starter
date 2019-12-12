@@ -15,7 +15,7 @@ module.exports = {
   entry: {
     "vendor": [
       'vue/dist/vue.esm.js',
-      'parkingos-ui'
+      'element-ui'
     ],
   },
   plugins: [

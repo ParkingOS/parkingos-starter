@@ -6,7 +6,7 @@ import {
   MemberMonthVIP,MemberPrepayCardVIP,MemberBlackList,MemberWhiteList,
   StrategicAnalysisDailyParkReport,StrategicAnalysisDailyReport,StrategicAnalysisMonthReport,
   SystemSettingAccount,SystemSettingPark,SystemSettingParkStaff,SystemSettingRoleManage,SystemSettingEmployeeManage,SystemSettingLogsOperates,
-  SmsService,SmsDistribution,
+  SmsService,SmsDistribution,UnionValueAddedDataScreen,UnionValueAddedSubscription,UnionValueAddedApplet,UnionValueAddedParkSubscription
 
 } from 'parkingos-ui';
 
@@ -335,8 +335,43 @@ export const unionRouter = [
           authority:'unionValueAddedService_Sms',
           hidden:false,
         },
-        component:SmsService,
-
+        component:SmsService
+      },{
+        path:'/unionValueAddedService_Screen',
+        title:'数据大屏',
+        name:'unionValueAddedService_Screen',
+        meta:{
+          authority:'unionValueAddedService_Screen',
+          hidden:false,
+        },
+        component:UnionValueAddedDataScreen
+      },{
+        path:'/unionValueAddedService_ShopApp',
+        title:'商户公众号',
+        name:'unionValueAddedService_ShopApp',
+        meta:{
+          authority:'unionValueAddedService_ShopApp',
+          hidden:false,
+        },
+        component:UnionValueAddedSubscription
+      },{
+        path:'/unionValueAddedService_Program',
+        title:'小程序收费',
+        name:'unionValueAddedService_Program',
+        meta:{
+          authority:'unionValueAddedService_Program',
+          hidden:false,
+        },
+        component:UnionValueAddedApplet
+      },{
+        path:'/unionValueAddedService_ParkApp',
+        title:'车场公众号',
+        name:'unionValueAddedService_ParkApp',
+        meta:{
+          authority:'unionValueAddedService_ParkApp',
+          hidden:false,
+        },
+        component:UnionValueAddedParkSubscription
       },
     ]
   },{
