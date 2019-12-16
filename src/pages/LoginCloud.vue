@@ -127,29 +127,18 @@
 </template>
 <script>
     import CryptoJS from 'crypto-js';
-    import parkingosCommon from 'parkingos-common'; //公共common
-
-    const { checkPass } = parkingosCommon.API;
-    const common = parkingosCommon.COMMON;
-    const {
-      ROLE_ID,
-      AUTH_ID,
-      AUTH_ID_UNION,
-      showUnionItem_const,
-      showParkItem_const,
-      showShopItem_const,
-      AUTH_ID_SHOP,
-      AUTH_ID_SERVER,
-      showServerItems_const,
-      AUTH_ID_CITY,
-      showCityItems_const
-    } = parkingosCommon.CONST;
-
     import utils  from '../libs/util'
     var key = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var iv = CryptoJS.enc.Utf8.parse('zldboink20170613');
     var timer,timer2;
     var obtainValidation = undefined;
+    var checkPass = (rule, value, callback) => {
+      if (!(/^(\w){6,12}$/.test(value))) {
+        return callback(new Error('密码为6-12位字母,数字或下划线'));
+      } else {
+        callback();
+      }
+    };
     export default {
         data() {
             return {
@@ -188,11 +177,6 @@
                 expandindex: '',   //'/order',//展开的sub_menu
                 highlightindex: '',//'/orderManage_Poles',//高亮的item
                 //根据权限控制页面是否显示
-                showParkItem: showParkItem_const,
-                showUnionItem: showUnionItem_const,
-                showShopItem:showShopItem_const,
-                showServerItem:showServerItems_const,
-                showCityItem:showCityItems_const,
                 isIE10:false,
                 logining: false,
                 getPassVisible: false,
@@ -274,10 +258,10 @@
 
             var vm = this;
             vm.getCookie()
-            var pad = Math.ceil((common.gww() - 1366) / 2);
+            var pad = Math.ceil((vm.common.gww() - 1366) / 2);
             this.top = 'height:60px;padding-left:' + pad + 'px;padding-right:' + pad + 'px';
-            this.bgheight = 'height:' + (common.gwh() - 110) + 'px;width:' + common.gww() + 'px';
-            this.content = 'float:left;width:1250px;height:' + (common.gwh() - 110) + 'px;margin-left:' + Math.ceil((common.gww() - 1500) / 2) + 'px';
+            this.bgheight = 'height:' + (vm.common.gwh() - 110) + 'px;width:' + vm.common.gww() + 'px';
+            this.content = 'float:left;width:1250px;height:' + (vm.common.gwh() - 110) + 'px;margin-left:' + Math.ceil((vm.common.gww() - 1500) / 2) + 'px';
 
             vm.iEVersionCheck();
             obtainValidation = new TencentCaptcha('2043299115',function (res) {

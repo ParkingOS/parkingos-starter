@@ -1,6 +1,15 @@
-import parkingosCommon from 'parkingos-common'; //公共common
-const common = parkingosCommon.COMMON;
 
+var gwh = function(_h){
+  let h = 0;
+  if (window.innerHeight) {
+    h = window.innerHeight;
+  } else {
+    h = document.documentElement.offsetHeight || document.body.clientHeight || 0;
+  }
+
+  h = h < _h ? _h : h;
+  return parseInt(h);
+};
 const app = {
   state:{
     screenPower:false,
@@ -47,9 +56,9 @@ const app = {
       var currentHeight = document.getElementById('consoleCurrentHeight');
       var _height = currentHeight.offsetHeight;
       if(_height != undefined){
-        state.tableMaxHeight = common.gwh() - (148+_height)
+        state.tableMaxHeight = gwh() - (148+_height)
       }else{
-        state.tableMaxHeight = common.gwh() - 300;
+        state.tableMaxHeight = gwh() - 300;
       }
 
     }

@@ -6,7 +6,8 @@ import {
   MemberManageMonthVIP, MemberManageRefill, MemberManagePrepayCard, MemberManageRechargeRecord, MemberManageUseRecord, MemberManageWhiteList,
   VistorManage,OwnerManage,
   OrderStatisticsTollCollector,OrderStatisticsDailyReport,OrderStatisticsMonthReport,OrderStatisticsCommute,
-  shopManageShop,shopManageShopStaff,shopManageQueryAccount,shopManageCoupon,
+  shopManageShop,shopManageShopStaff,shopManageQueryAccount,shopManageCoupon,shopManageShopAnalysis,
+  shopManageShopClassB,shopManageShopStaffClassB,shopManageQueryAccountClassB,shopManageCouponClassB,ShopManageCouponSetClassB,
   ParkRoleManage,ParkEmployeeManage,
   ValueAddedSMS,ValueAddedDataScreen,ValueAddedSubscription,ValueAddedApplet,ValueAddedParkSubscription,
   EquipmentManageWatchhouse,EquipmentManageMonitor,EquipmentManageChannel,
@@ -21,18 +22,23 @@ export const parkOtherRouter = {
   component:Layout,
   children:[
     {
-      path:'/orderManage_Orders/orderManage_OrderDetail',
+      path:'/orderManage_OrderDetail',
       name:'orderManage_OrderDetail',
       title:'订单详情',
       component:OrderManageOrderDetail
     },
     {
-      path:'/shopManage_Shop/ShopManage_Coupon_Staff',
+      path:'/ShopManage_Coupon_Staff',
       name:'ShopManage_Coupon_Staff',
       title:'商户员工',
       component:shopManageShopStaff
     },
-
+    {
+      path:'/ShopManage_Coupon_Staff_B',
+      name:'ShopManage_Coupon_Staff_B',
+      title:'商户员工',
+      component:shopManageShopStaffClassB
+    },
   ]
 };
 
@@ -318,7 +324,7 @@ export const parkRouter = [{
     path:'/',
     name:'shopManage',
     icon:'iconfont icon-shanghuguanli',
-    title:'商户管理',
+    title:'商户储值',
     meta:{
       authority:'shopManage',
       hidden:false,
@@ -357,6 +363,70 @@ export const parkRouter = [{
           hidden:false,
         },
         component:shopManageCoupon
+      },
+      {
+        path:'/shopAnalysis',
+        title:'商户统计',
+        name:'shopAnalysis',
+        meta:{
+          parentName:'shopManage',
+          authority:'shopAnalysis',
+          hidden:false,
+        },
+        component:shopManageShopAnalysis
+      },
+    ]
+  },
+  {
+    path:'/',
+    name:'shopManageB',
+    icon:'iconfont icon-shanghuguanli',
+    title:'商户购买',
+    meta:{
+      authority:'shopManageB',
+      hidden:false,
+    },
+    component:Layout,
+    children:[
+      {
+        path:'/shopManage_Shop_B',
+        title:'商户管理',
+        name:'shopManage_Shop_B',
+        meta:{
+          authority:'shopManage_Shop_B',
+          hidden:false,
+        },
+        component:shopManageShopClassB
+      },
+      {
+        path:'/shopManage_CouponSettings',
+        title:'优惠券设置',
+        name:'shopManage_CouponSettings',
+        meta:{
+          authority:'shopManage_CouponSettings',
+          hidden:false,
+        },
+        component:ShopManageCouponSetClassB
+      },
+      {
+        path:'/shopManage_QueryAccount_B',
+        title:'流水查询',
+        name:'shopManage_QueryAccount_B',
+        meta:{
+          authority:'shopManage_QueryAccount_B',
+          hidden:false,
+        },
+        component:shopManageQueryAccountClassB
+      },
+      {
+        path:'/shopManage_Coupon_B',
+        title:'商户统计',
+        name:'shopManage_Coupon_B',
+        meta:{
+          authority:'shopManage_Coupon_B',
+          hidden:false,
+        },
+        component:shopManageCouponClassB
       },
     ]
   },

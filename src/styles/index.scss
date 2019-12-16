@@ -29,3 +29,15 @@ body {
 .add-server-dialog{
   width: 478px !important;
 }
+.el-table{
+  /deep/th{
+    background-color:#F5F7FA;
+  }
+}
+.demo-table-expand {
+  /deep/.el-form-item{
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+}
