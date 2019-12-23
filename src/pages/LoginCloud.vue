@@ -632,26 +632,28 @@
                 localStorage.clear();
                 sessionStorage.clear();
 
-                localStorage.setItem('comid', u.comid);
-                localStorage.setItem('groupid', u.groupid)
-                sessionStorage.setItem('user', JSON.stringify(u));
-                sessionStorage.setItem('token', u.token);
-                sessionStorage.setItem('comid', u.comid);
-                sessionStorage.setItem('groupid', u.groupid);
-                sessionStorage.setItem('channelid', u.channelid);
-                sessionStorage.setItem('unionid', u.union_id);
-                sessionStorage.setItem('cityid', u.cityid);
-                sessionStorage.setItem('loginuin', u.loginuin);
-                sessionStorage.setItem('oid', u.oid);
-                sessionStorage.setItem('nickname', u.nickname);
-                sessionStorage.setItem('ishdorder', u.ishdorder);
-                sessionStorage.setItem('loginroleid', u.loginroleid);
-                sessionStorage.setItem('supperadmin', u.supperadmin);
-                sessionStorage.setItem('shopid', u.shopid);
-                sessionStorage.setItem('nickname1', u.nickname);
-                sessionStorage.setItem('serverid',u.serverid);
-                sessionStorage.setItem('bolink_serverid',u.bolink_serverid);
-                sessionStorage.setItem('docking_type',u.docking_type);
+              sessionStorage.setItem('user', JSON.stringify(u));
+              sessionStorage.setItem('token', u.token);
+              sessionStorage.setItem('comid', u.comid);
+              localStorage.setItem('comid', u.comid)
+              sessionStorage.setItem('groupid', u.groupid);
+              localStorage.setItem('groupid', u.groupid)
+              sessionStorage.setItem('channelid', u.channelid);
+              sessionStorage.setItem('unionid', u.union_id);
+              sessionStorage.setItem('cityid', u.cityid);
+              sessionStorage.setItem('loginuin', u.loginuin);
+              sessionStorage.setItem('oid', u.oid);
+              sessionStorage.setItem('nickname', u.nickname);
+              sessionStorage.setItem('ishdorder', u.ishdorder);
+              sessionStorage.setItem('loginroleid', u.loginroleid);
+              sessionStorage.setItem('supperadmin', u.supperadmin);
+              sessionStorage.setItem('shopid', u.shopid);
+              sessionStorage.setItem('nickname1', u.nickname);
+              sessionStorage.setItem('serverid',u.serverid);
+              sessionStorage.setItem('bolink_serverid',u.bolink_serverid);
+              sessionStorage.setItem('docking_type',u.docking_type);
+              sessionStorage.setItem('cloud_token',u.cloud_token);
+              sessionStorage.setItem('is_new_type',u.is_new_type);
 
             },
             onSubmit() {

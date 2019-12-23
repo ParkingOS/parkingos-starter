@@ -21,7 +21,7 @@
     "mathjs": "^5.10.3",
     "node-sass": "^4.12.0",
     "npm": "^6.12.0",
-    "parkingos-ui": "^1.2.0",
+    "parkingos-ui": "^1.2.1",
     "qrcode": "^1.4.2",
     "qs": "^6.9.0",
     "sass-loader": "^7.3.1",
