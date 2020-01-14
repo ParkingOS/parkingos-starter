@@ -11,7 +11,7 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
@@ -31,9 +31,12 @@ const webpackConfig = smp.wrap(merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+    filename: utils.assetsPath('js/[name].[chunkhash].js')
   },
+  externals : {
+      ElementUI: 'element-ui',
+      parkingosUI: 'parkingos-ui'
+   },
   optimization: {
     splitChunks: {
       cacheGroups: {
@@ -46,11 +49,11 @@ const webpackConfig = smp.wrap(merge(baseWebpackConfig, {
           name: 'manifest',
           minChunks: Infinity
         },
-        elementUI: {
-          name: 'chunk-elementUI', // 单独将 elementUI 拆包
-          priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
-          test: /[\\/]node_modules[\\/]element-ui[\\/]/
-        },
+        // elementUI: {
+        //   name: 'chunk-elementUI', // 单独将 elementUI 拆包
+        //   priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+        //   test: /[\\/]node_modules[\\/]element-ui[\\/]/
+        // },
         // parkingosUI: {
         //   name: 'chunk-parkingosUI', // 单独将 elementUI 拆包
         //   priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
@@ -60,11 +63,12 @@ const webpackConfig = smp.wrap(merge(baseWebpackConfig, {
     },
   },
   plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
-    // new webpack.DllReferencePlugin({
-    //   context: __dirname,
-    //   manifest: require('./vendor-manifest.json')
-    // }),
+    //http://vuejs.github.io/vue-loader/en/workflow/production.html
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require('./vendor-manifest.json')
+    }),
+    new BundleAnalyzerPlugin({ analyzerPort: 8919 }),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env': env

@@ -2,6 +2,9 @@ const webpack = require('webpack');
 const path = require('path');
 const utils = require('./utils');
 const config = require('../config')
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 module.exports = {
   output: {
     // 将会生成./ddl/lib.js文件
@@ -12,10 +15,17 @@ module.exports = {
     library: '[name]_library',
 
   },
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src'),
+    }
+  },
   entry: {
     "vendor": [
-      'vue/dist/vue.esm.js',
-      'element-ui'
+      'element-ui',
+      'parkingos-ui',
     ],
   },
   plugins: [
